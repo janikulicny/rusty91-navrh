@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stark Varg MX 1.2 – Rusty91</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- Náhrada písiem Stark-Sans (Unbounded) a Universal-Sans (Figtree). Originálne písma dodá Stark podľa zmluvy. -->
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400;500&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#000; --s1:#141414; --s2:#1e1e1e; --s3:#242424; --card:#2e2e2e; --card2:#424242;
+  --w:#fff; --w88:rgba(255,255,255,.88); --w64:rgba(255,255,255,.64); --w40:rgba(255,255,255,.4); --w16:rgba(255,255,255,.16);
+  --red:#ff1717; --green:#41c87f; --light:#e0e0e0;
+  --disp:"Unbounded","Stark-Sans",system-ui,sans-serif;
+  --txt:"Figtree","Universal-Sans",system-ui,sans-serif;
+  --A:"https://assets.starkfuture.com/frontend-assets/";
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--w);font:16px/1.5 var(--txt);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.disp{font-family:var(--disp);text-transform:uppercase;font-weight:400}
+.wrap{max-width:890px;margin:0 auto;padding:0 16px}
+.proto{position:relative;z-index:60;background:#ff6a00;color:#000;font:600 11px var(--txt);text-align:center;padding:5px 12px}
+
+/* ===== HLAVIČKA ===== */
+header{position:sticky;top:0;z-index:50;height:78px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 40px;background:linear-gradient(#000 0,rgba(0,0,0,.85) 70%,transparent)}
+header nav{display:flex;gap:30px}
+header nav a{font:400 12px var(--disp);letter-spacing:.14em;text-transform:uppercase;color:var(--w88)}
+header nav a.on,header nav a:hover{color:var(--w)}
+.logo{display:flex;align-items:center;gap:12px}
+.logo img{height:30px;width:auto}
+.logo span{font:300 10px var(--disp);letter-spacing:.2em;color:var(--w64);text-transform:uppercase;border-left:1px solid var(--w16);padding-left:12px;line-height:1.3}
+.hico{display:flex;justify-content:flex-end;gap:26px;align-items:center}
+.hico svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.5}
+.burger{display:none}
+
+/* ===== KONFIGURÁTOR ===== */
+.cfg{background:#000;padding:0 0 150px;position:relative}
+.stage{position:relative;height:clamp(240px,30vw,400px);margin-top:-10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage img{height:100%;width:auto;max-width:none;object-fit:contain;transition:opacity .35s}
+.arr{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:var(--w16);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.arr svg{width:18px;stroke:#fff;fill:none;stroke-width:1.6}
+.arr.l{left:56px}.arr.r{right:56px}
+.ctabs{display:flex;justify-content:center;gap:0;border-bottom:1px solid var(--w16);max-width:1200px;margin:0 auto;overflow-x:auto;scrollbar-width:none}
+.ctabs button{flex:0 0 auto;padding:14px 28px 16px;font:400 12px var(--disp);letter-spacing:.12em;text-transform:uppercase;color:var(--w40);position:relative;white-space:nowrap}
+.ctabs button.on{color:var(--w)}
+.ctabs button.on::after{content:"";position:absolute;left:28px;right:28px;bottom:-1px;height:3px;background:var(--red);border-radius:2px}
+.opts{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px 16px 0;min-height:150px}
+.pill{display:flex;gap:6px;background:var(--s3);border-radius:999px;padding:6px}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid transparent;transition:.2s}
+.sw.on{border-color:#fff}
+.seg{display:flex;gap:6px;background:var(--s3);border-radius:999px;padding:5px}
+.seg button{padding:10px 20px;border-radius:999px;font:500 13px var(--txt);color:var(--w64)}
+.seg button.on{background:var(--w);color:#000}
+.olbl{font-size:13px;color:var(--w64)}
+.olbl b{color:var(--w);font-weight:500}
+
+/* lepkavá cenovka */
+.buybar{position:fixed;left:50%;bottom:56px;transform:translateX(-50%);z-index:40;width:346px;border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.buybar .st{background:var(--light);color:#000;font-size:10.5px;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:6px;height:36px}
+.buybar .st b{font-weight:600}
+.buybar .st i{width:15px;height:15px;border-radius:50%;background:#3a3a3a;color:#fff;font-style:normal;font-size:10px;display:inline-flex;align-items:center;justify-content:center}
+.buybar .bt{background:rgba(20,20,20,.94);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+.buybar .pr{font:500 15px var(--disp);letter-spacing:.02em}
+.buybar .dt{font-size:11px;color:var(--w88);margin-top:2px}
+.buybar .dt .g{color:var(--green)}
+.bbtn{height:36px;padding:0 16px;border-radius:160px;background:var(--w16);color:var(--w88);font:600 14px var(--txt);letter-spacing:.025em}
+.bbtn:hover{background:var(--w);color:#000}
+.down{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);color:var(--w40);font-size:18px}
+
+/* ===== SEKCIE ===== */
+.hero{position:relative;height:min(92vh,760px);overflow:hidden;border-radius:16px;margin:0 0 0;background:#111}
+.hero video,.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero h2{position:absolute;top:70px;left:0;right:0;text-align:center;font:400 22px/1.2 var(--disp);letter-spacing:.14em;text-transform:uppercase}
+.hero .vid{position:absolute;top:130px;left:50%;transform:translateX(-50%);font-size:13px;color:var(--w88);display:flex;gap:8px;align-items:center}
+.sec{padding:60px 0}
+.sec.g{background:var(--s3)}
+.sec.d{background:var(--s1)}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.spec{background:var(--card);border-radius:16px;text-align:center;padding:22px 16px 0}
+.spec b{display:block;font:200 62px/1 var(--disp);letter-spacing:-.01em}
+.spec small{display:block;font:500 11px var(--disp);letter-spacing:.12em;color:var(--w88);margin:6px 0 16px}
+.spec span{display:block;border-top:1px solid var(--w16);padding:16px 0 20px;font-size:16px;color:var(--w88)}
+.info{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.ic{border:1px solid var(--w16);border-radius:12px;padding:22px 16px 20px;text-align:center;display:flex;flex-direction:column}
+.ic h3{font:400 16px/1.45 var(--txt);letter-spacing:.025em;padding-bottom:18px;border-bottom:1px solid var(--w16)}
+.ic p{font-size:14.5px;color:var(--w64);line-height:1.5;margin:18px 0;flex:1}
+.ic a{font-size:15px;color:var(--w64);display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.ic a i,.more i{width:16px;height:16px;border-radius:50%;background:var(--w40);color:#000;font-style:normal;font-size:10px;display:inline-flex;align-items:center;justify-content:center}
+.pay{text-align:center;padding:40px 0 30px;color:var(--w64);font-size:14.5px}
+.pay h3{font:400 16px var(--txt);color:var(--w);margin-bottom:10px}
+.full{position:relative;height:min(90vh,740px);overflow:hidden}
+.full img{width:100%;height:100%;object-fit:cover}
+.txt{text-align:center;padding:80px 0}
+.txt h2{font:400 18px var(--disp);letter-spacing:.16em;text-transform:uppercase;color:var(--w88);margin-bottom:40px}
+.txt p{color:var(--w64);font-size:17.5px;line-height:1.48;max-width:590px;margin:0 auto 26px}
+.gal{position:relative;height:min(94vh,780px);overflow:hidden}
+.gal img{width:100%;height:100%;object-fit:cover}
+.gal .pill{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);background:var(--w16);backdrop-filter:blur(10px)}
+.gal .arr.l{left:56px}.gal .arr.r{right:56px}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--w16)}
+.feat div{padding:30px 16px;text-align:center;color:var(--w64);font-size:15.5px;border-right:1px solid var(--w16);border-bottom:1px solid var(--w16)}
+.feat div:nth-child(3n){border-right:0}
+.feat svg{width:28px;height:28px;stroke:var(--w64);fill:none;stroke-width:1.3;margin:0 auto 10px;display:block}
+.slide{display:grid;grid-template-columns:362px 1fr;background:var(--card);border-radius:16px;overflow:hidden;min-height:416px}
+.slide .t{padding:48px}
+.slide h3{font:500 12px/1.4 var(--disp);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+.slide p{color:var(--w64);font-size:17px;line-height:1.38}
+.slide img{width:100%;height:100%;object-fit:cover}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:22px}
+.dots i{width:4px;height:4px;border-radius:2px;background:var(--w40)}
+.dots i.on{width:24px;background:var(--w)}
+.cost{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cost .l{background:var(--card);border-radius:16px;padding:20px 24px}
+.crow{padding:22px 0 18px;border-bottom:1px solid var(--w16)}
+.crow:last-child{border-bottom:0}
+.crow i{display:block;height:3px;border-radius:2px;background:var(--w);margin-bottom:16px}
+.crow .r{display:flex;justify-content:space-between;align-items:baseline}
+.crow span{font-size:16px}
+.crow b{font:300 28px var(--disp);letter-spacing:.01em}
+.crow.st i{background:var(--green)}.crow.st b{color:var(--green)}
+.cost .c{border:1px solid var(--w16);border-radius:16px;padding:16px 24px}
+.cin{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.cin div{background:var(--card);border-radius:8px;padding:8px 14px;font-size:11px;color:var(--w64)}
+.cin b{display:block;font:400 15px var(--txt);color:var(--w)}
+.cost svg{width:100%;height:auto}
+.note{font-size:11px;color:var(--w40);text-align:center;margin-top:18px}
+.acc{display:flex;flex-direction:column;gap:16px}
+.acc details{background:var(--s3);border-radius:8px}
+.acc summary{list-style:none;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font:500 12px var(--disp);letter-spacing:.1em;text-transform:uppercase;color:var(--w88);cursor:pointer}
+.acc summary::after{content:"+";width:26px;height:26px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font:300 16px var(--txt)}
+.acc details[open] summary::after{content:"–"}
+.acc .b{padding:4px 16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;font-size:14.5px}
+.acc .b span{color:var(--w40);display:block;font-size:13px}
+.title{font:400 18px var(--disp);letter-spacing:.16em;text-transform:uppercase;text-align:center;margin-bottom:14px}
+.lead{text-align:center;color:var(--w64);font-size:17px;max-width:520px;margin:0 auto 36px}
+/* modely */
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mod{background:#000;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.mod .im{height:190px;display:flex;align-items:center;justify-content:center;padding:10px}
+.mod .im img{max-height:100%}
+.mod .b{padding:0 20px 20px;border-top:1px solid var(--w16);margin:0 20px;padding:18px 0 20px;flex:1;display:flex;flex-direction:column}
+.mod h3{font:400 15px var(--disp);letter-spacing:.1em;color:var(--w64)}
+.mod p{font-size:14px;color:var(--w88);margin:8px 0 16px;flex:1}
+.mod .pp{font:500 15px var(--disp)}
+.mod .pp small{display:block;font:400 11px var(--txt);color:var(--w64);margin-top:2px}
+.mod .bb{display:flex;gap:8px;background:var(--s2);margin:0 -20px -20px;padding:14px 20px}
+.btn{height:40px;padding:0 18px;border-radius:160px;font:600 14px var(--txt);letter-spacing:.025em;display:inline-flex;align-items:center;justify-content:center;flex:1}
+.btn.w{background:var(--w);color:#000}
+.btn.t{background:var(--w16);color:var(--w88)}
+/* sklad */
+.chk{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--w88)}
+.chk svg{width:14px;stroke:var(--green);fill:none;stroke-width:2.4}
+.tagm{font:500 9px var(--disp);letter-spacing:.08em;padding:3px 7px;border-radius:5px;background:var(--card2);color:var(--w88)}
+.tagm.c{background:none;border:1px solid #4bc4a8;color:#4bc4a8}
+.mod .hd{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 0}
+.filt{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+.filt button{height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--w16);font:600 13px var(--txt);background:var(--s2)}
+.filt .s{width:26px;height:26px;border-radius:50%;padding:0;border:3px solid var(--card2)}
+.abra{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--w64);margin-left:auto}
+.abra i{width:7px;height:7px;border-radius:50%;background:var(--green)}
+/* formulár */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:620px;margin:0 auto}
+.f{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--w64)}
+.f.x{grid-column:1/-1}
+.f input,.f select,.f textarea{background:var(--s3);border:1px solid var(--w16);border-radius:10px;height:46px;padding:0 14px;color:#fff;font:15px var(--txt)}
+.f textarea{height:96px;padding:12px 14px;resize:none}
+.typ{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.typ label{border:1px solid var(--w16);border-radius:12px;padding:12px 14px;font-size:14px;cursor:pointer}
+.typ label small{display:block;color:var(--w64);font-size:12px}
+.typ input{display:none}
+.typ input:checked+span{color:#fff}
+.typ label:has(input:checked){border-color:#fff;background:var(--s3)}
+.gdpr{grid-column:1/-1;font-size:12px;color:var(--w64);display:flex;gap:10px}
+.gdpr i{width:16px;height:16px;border:1px solid var(--w40);border-radius:4px;flex:none;margin-top:2px}
+.sum{grid-column:1/-1;background:var(--s3);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--w88);display:flex;justify-content:space-between;gap:10px}
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
+.modal.on{display:flex}
+.modal .box{background:var(--s1);border:1px solid var(--w16);border-radius:18px;max-width:680px;width:100%;max-height:92vh;overflow:auto;padding:32px}
+.modal .cls{float:right;font-size:22px;color:var(--w64)}
+/* päta */
+footer{background:#000;padding:60px 0 30px;text-align:center}
+.fcols{display:grid;grid-template-columns:repeat(4,1fr);max-width:1100px;margin:0 auto 50px;gap:20px}
+.fcols h4{font:400 13px var(--disp);letter-spacing:.12em;color:var(--w64);text-transform:uppercase;margin-bottom:22px}
+.fcols a{display:block;font-size:14px;margin-bottom:12px;color:var(--w88)}
+.wm{margin:30px auto 40px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.wm img{height:46px}
+.wm span{font:400 13px var(--disp);letter-spacing:.28em;color:var(--w40)}
+.legal{font-size:12px;color:var(--w40);display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.chat{position:fixed;right:16px;bottom:16px;z-index:40;width:50px;height:50px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
+.chat svg{width:20px;stroke:#fff;fill:none;stroke-width:1.6}
+@media(max-width:900px){
+  header{padding:0 16px;grid-template-columns:auto 1fr auto}
+  header nav{display:none}.burger{display:block}
+  .logo{grid-column:1}.logo span{display:none}
+  .arr.l{left:12px}.arr.r{right:12px}
+  .specs,.info,.mods{grid-template-columns:1fr 1fr}
+  .info{grid-template-columns:1fr}
+  .slide{grid-template-columns:1fr}.slide .t{padding:28px}.slide img{height:260px}
+  .cost{grid-template-columns:1fr}
+  .feat{grid-template-columns:1fr 1fr}.feat div:nth-child(3n){border-right:1px solid var(--w16)}.feat div:nth-child(2n){border-right:0}
+  .fcols{grid-template-columns:1fr 1fr}
+  .spec b{font-size:44px}
+  .hero{border-radius:0}
+}
+@media(max-width:560px){
+  .specs,.mods{grid-template-columns:1fr}
+  .form,.typ,.acc .b{grid-template-columns:1fr}
+  .buybar{width:calc(100% - 32px);bottom:16px}
+  .ctabs{justify-content:flex-start}
+  .chat{display:none}
+  .modal .box{padding:22px}
+}
+</style>
+</head>
+<body>
+<div class="proto">NÁVRH DIZAJNU · Rusty91 × Stark Varg · rozloženie a fotky prevzaté zo starkfuture.com (podľa zmluvy) · nie je to ostrý web</div>
+
+<header>
+  <nav>
+    <a href="#modely">EX</a><a class="on" href="#">MX 1.2</a><a href="#modely">SM</a><a href="#lead">Skúšobná jazda</a><a href="#sklad">Na sklade</a>
+  </nav>
+  <a class="logo" href="#"><img src="img/rusty-logo.png" alt="Rusty91"><span>Stark<br>dealer</span></a>
+  <div class="hico">
+    <a href="tel:+421911603412" title="Zavolať"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></a>
+    <a href="https://www.rusty91.com" title="E-shop Rusty91"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></a>
+    <button class="burger" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 9h16M4 15h16"/></svg></button>
+  </div>
+</header>
+
+<!-- KONFIGURÁTOR -->
+<section class="cfg">
+  <div class="stage">
+    <button class="arr l" onclick="step(-1)"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <img id="bike" alt="Stark Varg MX 1.2">
+    <button class="arr r" onclick="step(1)"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="ctabs" id="tabs"></div>
+  <div class="opts" id="opts"></div>
+  <div class="down">︾</div>
+</section>
+
+<div class="buybar">
+  <a class="st" href="#sklad"><b>Skontrolujte motocykle skladom u Rusty91</b> kliknite sem <i>›</i></a>
+  <div class="bt">
+    <div><div class="pr" id="price">11 999,00 €</div><div class="dt"><span class="g">●</span> 2 ks skladom · odovzdanie do 7 dní</div></div>
+    <button class="bbtn" onclick="openLead('order')">Objednať</button>
+  </div>
+</div>
+
+<!-- HERO VIDEO -->
+<section class="hero">
+  <video autoplay muted loop playsinline poster="https://assets.starkfuture.com/frontend-assets/mx1.2/hero_01_desktop.webp">
+    <source src="https://assets.starkfuture.com/frontend-assets/mx1.2/mx12_loop_desktop.mp4" type="video/mp4">
+  </video>
+  <h2>Ride anywhere,<br>anytime</h2>
+  <a class="vid" href="#">▷ Pozrite si video</a>
+</section>
+
+<!-- ŠPECIFIKÁCIE -->
+<section class="sec g"><div class="wrap">
+  <div class="specs">
+    <div class="spec"><b>80</b><small>HP</small><span>Výkon</span></div>
+    <div class="spec"><b>118</b><small>KG</small><span>Hmotnosť</span></div>
+    <div class="spec"><b>978</b><small>NM</small><span>Krútiaci moment</span></div>
+    <div class="spec"><b>7.2</b><small>KWH</small><span>Batéria</span></div>
+    <div class="spec"><b>2</b><small>HODINY</small><span>Čas nabíjania</span></div>
+    <div class="spec"><b>2</b><small>ROKY</small><span>Záruka</span></div>
+  </div>
+  <div class="info">
+    <div class="ic"><h3>Navštívte Rusty91 alebo objednajte online</h3><p>Sme oficiálny predajca Stark Future. Motocykel si pozriete a vyskúšate u nás, alebo nám pošlete objednávku z webu – ozveme sa do 24 hodín.</p><a href="#lead">Kontaktovať Rusty91 <i>›</i></a></div>
+    <div class="ic"><h3>Odovzdanie pripravené na jazdu</h3><p>Motocykel zložíme, skontrolujeme a nastavíme aplikáciu VARG podľa vás. Pri odovzdaní prejdeme všetko spolu.</p><a href="#sklad">Motocykle skladom <i>›</i></a></div>
+    <div class="ic"><h3>Servis a podpora na Slovensku</h3><p>Záruka 2 roky, originálne diely a príslušenstvo. Servis, aktualizácie a poradenstvo priamo u Rusty91.</p><a href="https://www.rusty91.com">Diely v e-shope <i>›</i></a></div>
+  </div>
+</div></section>
+<div class="pay sec g" style="padding-top:0"><div class="wrap"><h3>Bez platby vopred</h3>Objednávka z webu je záväzný dopyt – bez platobnej brány. Rusty91 vás kontaktuje, potvrdí termín odovzdania a dohodne platbu (prevod, hotovosť, financovanie).</div></div>
+
+<section class="full"><img src="https://assets.starkfuture.com/frontend-assets/mx1.2/hero_02_desktop.webp" alt=""></section>
+
+<section class="txt"><div class="wrap">
+  <h2>Prekonávanie konkurencie v tichosti</h2>
+  <p>Cieľ Starku: postaviť najrýchlejší motokrosový motocykel na svete – a dokázať, že elektrina je lepšia ako benzín.</p>
+  <p>VARG MX 1.2 má ľahší a pružnejší podvozok, káble vedené v riadidlách, telefón Arkenstone v cene a batériu 7,2 kWh s o 20 % vyššou kapacitou.</p>
+  <p>Plne nastaviteľný výkon s vlastnými krivkami od 10 do 80 HP – na dosah ruky.</p>
+</div></section>
+
+<section class="gal">
+  <img id="gimg" src="https://assets.starkfuture.com/frontend-assets/mx1.2/product_carousel_red_01_desktop.webp" alt="">
+  <button class="arr l"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="arr r"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="pill"><span class="sw on" style="background:#ff1717"></span><span class="sw" style="background:#fff"></span><span class="sw" style="background:#37433e"></span></div>
+</section>
+
+<!-- VÝHODY -->
+<section class="sec d"><div class="wrap">
+  <div class="feat">
+    <div><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2M20 4v5h-5"/></svg>Dlhšia životnosť ako 450 cc</div>
+    <div><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>Viac výkonu ako 450 cc</div>
+    <div><svg viewBox="0 0 24 24"><path d="M4 7h3M4 12h3M4 17h3M10 7h10M10 12h10M10 17h10"/></svg>Nízka údržba ako bicykel</div>
+    <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M6.5 6.5l11 11"/></svg>Nulové emisie, nulový hluk</div>
+    <div><svg viewBox="0 0 24 24"><path d="M21 3L3 10l8 3 3 8z"/></svg>Navigácia a záznam stôp</div>
+    <div><svg viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/><circle cx="9" cy="8" r="2"/><circle cx="15" cy="16" r="2"/></svg>Prispôsobiteľný zážitok z jazdy</div>
+  </div>
+</div></section>
+
+<section class="sec d" style="padding-top:20px"><div class="wrap" style="max-width:1100px">
+  <div class="slide">
+    <div class="t"><h3>Jednoduchšie,<br>rýchlejšie</h3><p>Bez prevodov a spojky je jazda na VARGu jednoduchšia – viac kontroly, menej chýb a vyššia rýchlosť cez prekážky. Čisté sústredenie na jazdu.</p></div>
+    <img src="https://assets.starkfuture.com/frontend-assets/mx1.2/carousel_01_slide_02_desktop.webp" alt="">
+  </div>
+  <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+</div></section>
+
+<!-- NÁKLADY -->
+<section class="sec d"><div class="wrap" style="max-width:1100px">
+  <div class="title">Nízke na údržbu, udržateľné</div>
+  <p class="lead">Žiadne filtre, olej ani piesty. Porovnanie nákladov na 100 jazdných hodín.</p>
+  <div class="cost">
+    <div class="l">
+      <div class="crow st"><i style="width:5%"></i><div class="r"><span>Stark VARG</span><b>540,00 €</b></div></div>
+      <div class="crow"><i style="width:46%"></i><div class="r"><span>450 štvortakt</span><b>6 042,00 €</b></div></div>
+      <div class="crow"><i style="width:100%"></i><div class="r"><span>250 dvojtakt</span><b>13 075,00 €</b></div></div>
+    </div>
+    <div class="c">
+      <div class="cin"><div>Palivo (liter)<b>2.10 €</b></div><div>Jazdné hodiny<b>100</b></div></div>
+      <svg viewBox="0 0 400 170"><g stroke="#333" stroke-width="1"><line x1="20" y1="20" x2="390" y2="20"/><line x1="20" y1="60" x2="390" y2="60"/><line x1="20" y1="100" x2="390" y2="100"/><line x1="20" y1="140" x2="390" y2="140"/></g>
+        <polyline fill="none" stroke="#9a9a9a" stroke-width="3" points="20,140 60,138 100,130 140,122 170,110 175,80 220,74 260,62 300,55 330,52 335,28 380,25 390,12"/>
+        <polyline fill="none" stroke="#fff" stroke-width="3" points="20,140 80,136 140,128 200,118 260,108 320,100 370,94 390,70"/>
+        <polyline fill="none" stroke="#41c87f" stroke-width="3" points="20,140 200,137 390,134"/></svg>
+    </div>
+  </div>
+  <p class="note">Výpočet podľa údajov Stark Future, priemerné ceny paliva a elektriny.</p>
+</div></section>
+
+<!-- MODELY -->
+<section class="sec g" id="modely"><div class="wrap" style="max-width:1100px">
+  <div class="title">Vyberte si VARG</div>
+  <p class="lead">Tri modely, jeden elektrický pohon. Všetky si u Rusty91 vyskúšate.</p>
+  <div class="mods">
+    <div class="mod"><div class="im"><img src="https://assets.starkfuture.com/frontend-assets/ex-product-images/SEX1_color_red_regular_desktop.webp" alt=""></div>
+      <div class="b"><h3>STARK VARG EX</h3><p>Enduro s homologáciou na cestu – z garáže rovno do lesa.</p><div class="pp">od 12 990,00 €<small>cena podľa výbavy</small></div></div>
+      <div class="bb"><a class="btn t" href="#lead" onclick="openLead('lead','Varg EX')">Dopyt</a><a class="btn w" href="#">Konfigurovať</a></div></div>
+    <div class="mod"><div class="im"><img src="https://assets.starkfuture.com/frontend-assets/mx-1-2-product-images/SMX1_2_color_red_nohandguard_regular_desktop.webp" alt=""></div>
+      <div class="b"><h3>STARK VARG MX 1.2</h3><p>Motokros. 118 kg, 7,2 kWh, výkon 10–80 HP.</p><div class="pp">od 11 999,00 €<small>60 HP · 80 HP za 12 999,00 €</small></div></div>
+      <div class="bb"><a class="btn t" href="#lead" onclick="openLead('lead','Varg MX 1.2')">Dopyt</a><a class="btn w" href="#">Konfigurovať</a></div></div>
+    <div class="mod"><div class="im"><img src="https://assets.starkfuture.com/frontend-assets/sm-product-images/SM_color_red_regular_desktop.webp" alt=""></div>
+      <div class="b"><h3>STARK VARG SM</h3><p>Supermoto legálne na cestu. Okruh aj mesto.</p><div class="pp">od 12 990,00 €<small>cena podľa výbavy</small></div></div>
+      <div class="bb"><a class="btn t" href="#lead" onclick="openLead('lead','Varg SM')">Dopyt</a><a class="btn w" href="#">Konfigurovať</a></div></div>
+  </div>
+</div></section>
+
+<!-- SKLAD (Abra Flexi) -->
+<section class="sec d" id="sklad"><div class="wrap" style="max-width:1100px">
+  <div class="title">Motocykle skladom u Rusty91</div>
+  <p class="lead">Predkonfigurované VARGy pripravené na odovzdanie. Stav skladu sa načítava priamo z účtovníctva Rusty91.</p>
+  <div class="filt"><button>Model ▾</button><button class="s" style="background:#ff1717"></button><button class="s" style="background:#37433e"></button><button class="s" style="background:#fff"></button><button>Výkon ▾</button><button>Zadná brzda ▾</button><span class="abra"><i></i>Aktualizované pred 4 min</span></div>
+  <div class="mods">
+    <div class="mod" style="background:#000">
+      <div class="hd"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Skladom · ihneď</span><span class="tagm">VARG MX 1.2</span></div>
+      <div class="im"><img src="https://assets.starkfuture.com/frontend-assets/mx-1-2-product-images/SMX1_2_color_red_nohandguard_regular_desktop.webp" alt=""></div>
+      <div class="b"><h3>STARK VARG MX 1.2</h3><p>Červená, nožná brzda, Dunlop MX34, sedadlo štandard, 60 HP</p><div class="pp">11 999,00 €<small>VIN …4401</small></div></div>
+      <div class="bb"><a class="btn t" href="#">Detail</a><button class="btn w" onclick="openLead('order','Varg MX 1.2 · červená · 60 HP · VIN …4401')">Objednať</button></div></div>
+    <div class="mod" style="background:#000">
+      <div class="hd"><span class="chk"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Skladom · ihneď</span><span><span class="tagm c">80HP</span> <span class="tagm">VARG MX 1.2</span></span></div>
+      <div class="im"><img src="https://assets.starkfuture.com/frontend-assets/mx-1-2-product-images/SMX1_2_color_grey_nohandguard_regular_desktop.webp" alt=""></div>
+      <div class="b"><h3>STARK VARG MX 1.2</h3><p>Sivá, ručná brzda, Dunlop MX34, sedadlo štandard, 80 HP „Alfa“</p><div class="pp">12 999,00 €<small>VIN …4415</small></div></div>
+      <div class="bb"><a class="btn t" href="#">Detail</a><button class="btn w" onclick="openLead('order','Varg MX 1.2 · sivá · 80 HP · VIN …4415')">Objednať</button></div></div>
+    <div class="mod" style="background:#000">
+      <div class="hd"><span class="chk" style="color:#ffb547"><svg viewBox="0 0 24 24" style="stroke:#ffb547"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Na ceste · 12/2026</span><span class="tagm">VARG EX</span></div>
+      <div class="im"><img src="https://assets.starkfuture.com/frontend-assets/ex-product-images/SEX1_color_white_regular_desktop.webp" alt=""></div>
+      <div class="b"><h3>STARK VARG EX</h3><p>Biela, homologácia na cestu, 80 HP</p><div class="pp">12 990,00 €<small>objednané u Stark Future</small></div></div>
+      <div class="bb"><a class="btn t" href="#">Detail</a><button class="btn w" onclick="openLead('order','Varg EX · biela · na ceste 12/2026')">Rezervovať</button></div></div>
+  </div>
+  <p class="note">Ukážkové dáta. Na ostrom webe karty, ceny a stav (skladom / rezervované / na ceste / predané) idú automaticky z Abra Flexi.</p>
+</div></section>
+
+<!-- ŠPECIFIKÁCIE AKORDEÓN -->
+<section class="sec" style="background:#000"><div class="wrap" style="max-width:920px">
+  <div class="title" style="margin-bottom:34px">Špecifikácie</div>
+  <div class="acc">
+    <details open><summary>Powertrain</summary><div class="b"><div><span>Batéria</span>7,2 kWh, 420 V</div><div><span>Výkon</span>60 / 80 koní</div><div><span>Krútiaci moment</span>978 Nm na zadnom kolese</div><div><span>Nabíjačka</span>3,3 kW · 2 h pri 240 V</div></div></details>
+    <details><summary>Chassis</summary><div class="b"><div><span>Rám</span>Vysokopevnostná oceľ</div><div><span>Uhol riadenia</span>27,3°</div><div><span>Rázvor</span>148,7 cm</div><div><span>Výška sedadla</span>96,0 cm</div></div></details>
+    <details><summary>Suspensions</summary><div class="b"><div><span>Vpredu</span>KYB 48 mm, zdvih 310 mm</div><div><span>Vzadu</span>KYB, zdvih kolesa 303 mm</div></div></details>
+    <details><summary>Brakes</summary><div class="b"><div><span>Vpredu</span>Brembo 2-piestik, Galfer 260 mm</div><div><span>Vzadu</span>Brembo 1-piestik, Galfer 220 mm</div></div></details>
+    <details><summary>Wheels</summary><div class="b"><div><span>18"</span>90/90-21 · 140/80-18</div><div><span>19"</span>80/100-21 · 110/90-19</div></div></details>
+    <details><summary>Chain and sprockets</summary><div class="b"><div><span>Reťaz</span>RK MXU UW-ring Gold 520</div><div><span>Rozeta</span>7075 T6</div></div></details>
+  </div>
+</div></section>
+
+<!-- DOPYT / SKÚŠOBNÁ JAZDA -->
+<section class="sec g" id="lead"><div class="wrap">
+  <div class="title">Skúšobná jazda a dopyt</div>
+  <p class="lead">Napíšte nám – Rusty91 sa ozve do 24 hodín. Správa príde rovno do jeho adminu a e-mailu.</p>
+  <form class="form" onsubmit="event.preventDefault();this.innerHTML='<p class=lead style=grid-column:1/-1>Ďakujeme, Rusty91 sa vám ozve do 24 hodín.</p>'">
+    <div class="typ"><label><input type="radio" name="t" checked><span>Skúšobná jazda<small>termín dohodneme</small></span></label><label><input type="radio" name="t"><span>Otázka / ponuka<small>cena, financovanie, výbava</small></span></label></div>
+    <label class="f">Model<select><option>Varg MX 1.2</option><option>Varg EX</option><option>Varg SM</option></select></label>
+    <label class="f">Preferovaný termín<input placeholder="napr. sobota 12. 12."></label>
+    <label class="f">Meno a priezvisko<input placeholder="Ján Novák"></label>
+    <label class="f">Telefón<input placeholder="+421 …"></label>
+    <label class="f x">E-mail<input placeholder="meno@email.sk"></label>
+    <label class="f x">Správa<textarea placeholder="Čím jazdíte teraz, čo vás zaujíma…"></textarea></label>
+    <div class="gdpr"><i></i>Súhlasím so spracovaním osobných údajov na účel vybavenia dopytu.</div>
+    <button class="btn w" style="grid-column:1/-1;height:46px">Odoslať</button>
+  </form>
+</div></section>
+
+<footer>
+  <div class="fcols">
+    <div><h4>Varg</h4><a href="#">Varg EX</a><a href="#">Varg MX 1.2</a><a href="#">Varg SM</a><a href="#sklad">Motocykle skladom</a><a href="#lead">Skúšobná jazda</a></div>
+    <div><h4>Rusty91</h4><a href="#">O nás</a><a href="https://www.rusty91.com">E-shop rusty91.com</a><a href="#">Servis</a><a href="#">Kontakt</a></div>
+    <div><h4>Podpora</h4><a href="#">Odovzdanie a nastavenie</a><a href="#">Záruka</a><a href="#">Náhradné diely</a><a href="#">FAQ</a></div>
+    <div><h4>Kontakt</h4><a href="tel:+421911603412">+421 911 603 412</a><a href="mailto:shop@rusty91.com">shop@rusty91.com</a><a href="#">Instagram</a><a href="#">Facebook</a></div>
+  </div>
+  <div class="wm"><img src="img/rusty-logo.png" alt="Rusty91"><span>Oficiálny predajca Stark Future</span></div>
+  <div class="legal"><a href="#">Obchodné podmienky</a><a href="#">Ochrana súkromia</a><a href="#">Cookies</a><span>© 2026 Rusty91</span></div>
+</footer>
+<div style="height:120px;background:#000"></div>
+<a class="chat" href="#lead" title="Napíšte nám"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></a>
+
+<!-- MODAL OBJEDNÁVKA -->
+<div class="modal" id="modal" onclick="if(event.target===this)this.classList.remove('on')">
+  <div class="box">
+    <button class="cls" onclick="document.getElementById('modal').classList.remove('on')">×</button>
+    <div class="title" id="mt" style="text-align:left">Objednávka</div>
+    <p class="olbl" style="margin-bottom:20px">Bez platby online. Rusty91 potvrdí objednávku, termín odovzdania a spôsob platby.</p>
+    <form class="form" style="max-width:none" onsubmit="event.preventDefault();this.innerHTML='<p class=lead style=grid-column:1/-1;margin:20px_0>Objednávka odoslaná. Rusty91 vás bude kontaktovať.</p>'">
+      <div class="sum"><span id="ms">Varg MX 1.2 · Stark Červená · 60 HP · nožná brzda</span><b id="mp">11 999,00 €</b></div>
+      <label class="f">Meno a priezvisko<input></label>
+      <label class="f">Telefón<input></label>
+      <label class="f x">E-mail<input></label>
+      <label class="f">Mesto<input></label>
+      <label class="f">Financovanie<select><option>Platba naraz</option><option>Leasing / úver – chcem ponuku</option><option>Protihodnota – mám motorku na výmenu</option></select></label>
+      <label class="f x">Poznámka<textarea></textarea></label>
+      <div class="gdpr"><i></i>Súhlasím s obchodnými podmienkami a spracovaním osobných údajov.</div>
+      <button class="btn w" style="grid-column:1/-1;height:46px">Odoslať objednávku</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const A='https://assets.starkfuture.com/frontend-assets/mx-1-2-product-images/';
+const S={color:'red',power:'60',brake:'foot',susp:'std',stand:'no',tires:'mx34',seat:'std'};
+const COL={red:['#ff1717','Stark Červená'],white:['#ffffff','Stark Biela'],grey:['#37433e','Stark Sivá']};
+const TABS=[
+ {k:'color',n:'Farba'},{k:'power',n:'Výkon'},{k:'brake',n:'Zadná brzda'},{k:'susp',n:'Odpruženia'},
+ {k:'stand',n:'Bočný stojan'},{k:'tires',n:'Pneumatiky'},{k:'seat',n:'Sedadlo'}];
+const OPT={
+ power:[['60','60 HP Štandard'],['80','80 HP „Alfa“']],
+ brake:[['foot','Nožná'],['hand','Ručná']],
+ susp:[['std','Stredná váha 75–90 kg'],['light','Ľahká do 75 kg'],['heavy','Ťažká nad 90 kg']],
+ stand:[['no','Bez stojana'],['yes','S bočným stojanom']],
+ tires:[['mx34','Dunlop MX34'],['enduro','Enduro 18"']],
+ seat:[['std','Štandard'],['grip','Grip'],['super','Super grip']]};
+let tab=0;
+function img(){const c=S.color,t=TABS[tab].k;
+ if(t==='power')return A+'SMX1_2_power_'+c+'_handbrake_nohandguard_regular_desktop.webp';
+ if(t==='brake')return A+'SMX1_2_rear_brake_'+c+'_handbrake_mobile.webp';
+ if(t==='susp')return A+'SMX1_2_suspension_'+c+'_handbrake_nohandguard_regular_desktop.webp';
+ if(t==='stand')return A+'SMX1_2_side_stand_'+c+'_handbrake_mx19_nohandguard_regular_nosidestand_mobile.webp';
+ if(t==='tires')return A+'SMX1_2_tires_dunlop_mx34.webp';
+ if(t==='seat')return A+'SMX1_2_'+c+'_seats_'+({std:'regular',grip:'grip',super:'super_grip'})[S.seat]+'.webp';
+ return A+'SMX1_2_color_'+c+'_nohandguard_regular_desktop.webp';}
+function fmt(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')+',00 €'}
+function price(){return S.power==='80'?12999:11999}
+function render(){
+ document.getElementById('tabs').innerHTML=TABS.map((t,i)=>`<button class="${i===tab?'on':''}" onclick="tab=${i};render()">${t.n}</button>`).join('');
+ const k=TABS[tab].k,o=document.getElementById('opts');
+ if(k==='color'){o.innerHTML=`<div class="pill">${Object.keys(COL).map(c=>`<button class="sw ${S.color===c?'on':''}" style="background:${COL[c][0]}" onclick="S.color='${c}';render()"></button>`).join('')}</div><div class="olbl">${COL[S.color][1]}</div>`}
+ else{o.innerHTML=`<div class="seg">${OPT[k].map(v=>`<button class="${S[k]===v[0]?'on':''}" onclick="S['${k}']='${v[0]}';render()">${v[1]}</button>`).join('')}</div><div class="olbl">${TABS[tab].n}: <b>${OPT[k].find(v=>v[0]===S[k])[1]}</b></div>`}
+ const b=document.getElementById('bike');b.onerror=function(){this.onerror=null;this.src=A+'SMX1_2_color_'+S.color+'_nohandguard_regular_desktop.webp'};b.src=img();
+ document.getElementById('price').textContent=fmt(price());
+ document.getElementById('gimg').src='https://assets.starkfuture.com/frontend-assets/mx1.2/product_carousel_'+(S.color==='red'?'red':'red')+'_01_desktop.webp';
+}
+function step(d){tab=(tab+d+TABS.length)%TABS.length;render()}
+function openLead(type,what){
+ const m=document.getElementById('modal');
+ document.getElementById('mt').textContent=type==='order'?'Objednávka':'Dopyt';
+ document.getElementById('ms').textContent=what||('Varg MX 1.2 · '+COL[S.color][1]+' · '+S.power+' HP · '+(S.brake==='hand'?'ručná':'nožná')+' brzda');
+ document.getElementById('mp').textContent=what?'':fmt(price());
+ m.classList.add('on');
+}
+render();
+</script>
+</body>
+</html>
